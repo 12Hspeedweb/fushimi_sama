@@ -180,6 +180,19 @@
             overflow: hidden;
         }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(241, 248, 233, 0.8), rgba(220, 237, 200, 0.8)), url('./images/hero/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
         .hero-bg-animation {
             position: absolute;
             width: 200%;
@@ -283,12 +296,23 @@
             width: 100%;
             max-width: 350px;
             height: 400px;
-            background: url('./images/senin/senin-portrait.jpg') center/cover;
             background-color: var(--light-green);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .senin-portrait::before {
+            content: '笑福仙人';
+            position: absolute;
+            font-size: 2rem;
+            color: var(--primary-color);
+            opacity: 0.3;
+            z-index: 1;
         }
 
         .senin-portrait::before {
@@ -750,8 +774,26 @@
             opacity: 0;
             transition: all 0.5s ease;
             height: 250px;
-            background: #f0f0f0;
+            background-color: var(--light-green);
             border: 2px solid var(--light-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item::before {
+            content: attr(data-caption);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary-color);
+            font-size: 1rem;
+            text-align: center;
+            padding: 1rem;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .gallery-item.visible {
@@ -765,6 +807,8 @@
             object-fit: cover;
             transition: transform 0.5s ease;
             background-color: var(--light-green);
+            position: relative;
+            z-index: 2;
         }
 
         .gallery-item:hover img {
@@ -783,6 +827,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 0.3s ease;
+            z-index: 3;
         }
 
         .gallery-item:hover .gallery-overlay {
@@ -1141,7 +1186,9 @@
         <h2 class="section-title">笑福仙人の世界</h2>
         <div class="senin-container">
             <div class="senin-image">
-                <div class="senin-portrait"></div>
+                <div class="senin-portrait">
+                    <img src="./images/senin/senin-portrait.jpg" alt="笑福仙人" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px; position: relative; z-index: 2;" onerror="this.style.display='none'">
+                </div>
             </div>
             <div class="senin-content">
                 <h3 class="senin-title">
@@ -1483,56 +1530,56 @@
     <section class="gallery" id="gallery">
         <h2 class="section-title">フォトギャラリー</h2>
         <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="./images/gallery/hishoukaku-exterior.jpg" alt="飛翔閣">
+            <div class="gallery-item" data-caption="飛翔閣 外観">
+                <img src="./images/gallery/event-01.jpg" alt="飛翔閣" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">飛翔閣 外観</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/takenoura-cuisine.jpg" alt="竹乃浦">
+            <div class="gallery-item" data-caption="竹乃浦の極上料理">
+                <img src="./images/gallery/event-02.jpg" alt="竹乃浦" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">竹乃浦の極上料理</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/yasuragi-ceremony.jpg" alt="やすらぎ葬儀社">
+            <div class="gallery-item" data-caption="しみんのホール やすらぎ">
+                <img src="./images/gallery/event-03.jpg" alt="やすらぎ葬儀社" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">しみんのホール やすらぎ</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/warai-event.jpg" alt="笑い学会">
+            <div class="gallery-item" data-caption="笑い学会での公演">
+                <img src="./images/gallery/event-04.jpg" alt="笑い学会" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">笑い学会での公演</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/shinsai-support.jpg" alt="震災支援">
+            <div class="gallery-item" data-caption="震災支援活動の様子">
+                <img src="./images/gallery/event-05.jpg" alt="震災支援" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">震災支援活動の様子</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/piano-ceremony.jpg" alt="ピアノ寄贈">
+            <div class="gallery-item" data-caption="ピアノ寄贈式典">
+                <img src="./images/gallery/event-06.jpg" alt="ピアノ寄贈" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">ピアノ寄贈式典</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/shogi-tournament.jpg" alt="将棋大会">
+            <div class="gallery-item" data-caption="新春将棋大会">
+                <img src="./images/gallery/event-07.jpg" alt="将棋大会" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">新春将棋大会</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/shukatsu-seminar.jpg" alt="終活セミナー">
+            <div class="gallery-item" data-caption="笑いで見送る終活講座">
+                <img src="./images/gallery/event-08.jpg" alt="終活セミナー" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">笑いで見送る終活講座</div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="./images/gallery/chonaikai-activity.jpg" alt="町内会">
+            <div class="gallery-item" data-caption="町内会連合会活動">
+                <img src="./images/gallery/event-09.jpg" alt="町内会" onerror="this.style.display='none'">
                 <div class="gallery-overlay">
                     <div class="gallery-caption">町内会連合会活動</div>
                 </div>
@@ -1764,12 +1811,67 @@
         });
 
         // 画像読み込みエラーのデバッグ
-        document.querySelectorAll('img').forEach(img => {
-            img.addEventListener('error', function() {
-                console.error('画像読み込みエラー:', this.src);
-                this.style.backgroundColor = '#C8E6C9';
-                this.alt = '画像を読み込めませんでした';
+        window.addEventListener('load', () => {
+            // すべての画像要素をチェック
+            const images = document.querySelectorAll('img');
+            let loadedCount = 0;
+            let errorCount = 0;
+            
+            console.log(`===== 画像読み込み状況 =====`);
+            console.log(`画像総数: ${images.length}`);
+            
+            images.forEach((img, index) => {
+                // 画像読み込みエラー時
+                img.addEventListener('error', function() {
+                    errorCount++;
+                    console.error(`❌ 画像${index + 1} エラー:`, this.src);
+                    
+                    // エラー時の処理
+                    if (this.parentElement.classList.contains('gallery-item')) {
+                        this.style.display = 'none';
+                    } else {
+                        this.style.backgroundColor = '#C8E6C9';
+                    }
+                });
+                
+                // 画像読み込み成功時
+                img.addEventListener('load', function() {
+                    loadedCount++;
+                    console.log(`✅ 画像${index + 1} 成功:`, this.src);
+                });
+                
+                // 既に読み込まれているかチェック
+                if (img.complete) {
+                    if (img.naturalHeight === 0) {
+                        errorCount++;
+                        console.error(`❌ 画像${index + 1} エラー（既読）:`, img.src);
+                    } else {
+                        loadedCount++;
+                        console.log(`✅ 画像${index + 1} 成功（既読）:`, img.src);
+                    }
+                }
             });
+            
+            // 背景画像のチェック
+            const elementsWithBgImage = document.querySelectorAll('[style*="background-image"]');
+            console.log(`\n===== 背景画像要素 =====`);
+            console.log(`背景画像要素数: ${elementsWithBgImage.length}`);
+            
+            elementsWithBgImage.forEach((el, index) => {
+                const bgImage = window.getComputedStyle(el).backgroundImage;
+                const urlMatch = bgImage.match(/url\(["']?(.+?)["']?\)/);
+                if (urlMatch) {
+                    console.log(`背景画像${index + 1}:`, urlMatch[1]);
+                }
+            });
+            
+            // 総括を2秒後に表示
+            setTimeout(() => {
+                console.log(`\n===== 画像読み込み結果 =====`);
+                console.log(`成功: ${loadedCount}枚`);
+                console.log(`失敗: ${errorCount}枚`);
+                console.log(`========================`);
+            }, 2000);
         });
     </script>
 </body>
