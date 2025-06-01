@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伏見不二雄 - 石巻の心、笑顔の経営者</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #4E9F3D;
+            --accent-color: #8BC34A;
+            --light-green: #C8E6C9;
+            --dark-green: #1B3A1B;
+            --text-dark: #263238;
+            --text-light: #455A64;
+            --bg-light: #F1F8E9;
+            --bg-gradient: linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 100%);
+        }
+
+        body {
+            font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background: var(--bg-light);
+        }
+
+        /* ローディング画面 */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-text {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: #E0E0E0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            height: 100%;
+            background: var(--secondary-color);
+            width: 0;
+            animation: loadProgress 3s ease forwards;
+        }
+
+        @keyframes loadProgress {
+            to { width: 100%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ヘッダー */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: left 0.3s ease;
+        }
+
+        .logo:hover::after {
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1.1rem;
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-menu a:hover::before {
+            width: 100%;
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: var(--bg-gradient);
+            overflow: hidden;
+        }
+
+        .hero-bg-animation {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(78,159,61,0.1) 0%, transparent 70%);
+            animation: rotateGradient 20s linear infinite;
+        }
+
+        @keyframes rotateGradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+            opacity: 0;
+            animation: heroFadeIn 1.5s ease forwards;
+            animation-delay: 3.5s;
+        }
+
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title span {
+            display: inline-block;
+            opacity: 0;
+            animation: titleLetterFade 0.5s ease forwards;
+            animation-delay: calc(4s + var(--delay));
+        }
+
+        @keyframes titleLetterFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 4.5s;
+        }
+
+        /* 笑福仙人セクション */
+        .senin-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #FFF 0%, #F1F8E9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .senin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .senin-image {
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .senin-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .senin-portrait {
+            width: 100%;
+            max-width: 350px;
+            height: 400px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 400"><rect fill="%23F1F8E9" width="350" height="400"/><circle cx="175" cy="150" r="80" fill="%23E8F5E9"/><text x="175" y="300" font-family="serif" font-size="24" fill="%232C5F2D" text-anchor="middle">笑福仙人</text></svg>') center/cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .senin-portrait::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .senin-content {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .senin-content.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .senin-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .senin-title span {
+            font-size: 3rem;
+        }
+
+        .senin-tagline {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .senin-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .senin-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .senin-feature {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .senin-feature.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .senin-feature h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .senin-feature p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .senin-activities {
+            background: rgba(255,255,255,0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .senin-activities h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .activity-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .activity-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .activity-text h5 {
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .activity-text p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .hero-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .role-badge {
+            background: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            opacity: 0;
+            transform: scale(0);
+            animation: badgePop 0.6s ease forwards;
+            animation-delay: calc(5s + var(--badge-delay));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--light-green);
+        }
+
+        .role-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: var(--light-green);
+        }
+
+        @keyframes badgePop {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* 事業紹介セクション */
+        .business-section {
+            padding: 5rem 5%;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--secondary-color);
+            opacity: 0;
+            transition: all 0.5s ease;
+            transition-delay: 0.3s;
+        }
+
+        .section-title.visible::after {
+            opacity: 1;
+            width: 150px;
+        }
+
+        .business-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .business-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.6s ease;
+            position: relative;
+            border: 1px solid var(--light-green);
+        }
+
+        .business-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .business-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .business-card-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .business-card-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(27,58,27,0.7));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .business-card:hover .business-card-image::before {
+            opacity: 1;
+        }
+
+        .business-card-content {
+            padding: 2rem;
+        }
+
+        .business-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .business-detail-list {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .business-detail-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 実績カウンターセクション */
+        .achievements {
+            padding: 4rem 5%;
+            background: var(--bg-gradient);
+            text-align: center;
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .counter-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.5s ease;
+            border: 2px solid var(--light-green);
+        }
+
+        .counter-item.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .counter-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .counter-label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* 詳細な活動タイムライン */
+        .timeline {
+            padding: 5rem 5%;
+            background: white;
+            position: relative;
+        }
+
+        .timeline-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light-green);
+            transform: translateX(-50%);
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: var(--secondary-color);
+            transition: height 0.5s ease;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+            transform: translateX(50px);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            width: calc(50% - 30px);
+            position: relative;
+            border: 1px solid var(--light-green);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px white, 0 0 0 6px var(--secondary-color);
+            z-index: 1;
+        }
+
+        .timeline-date {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-details {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .timeline-details ul {
+            margin-top: 0.5rem;
+            padding-left: 1.2rem;
+        }
+
+        .timeline-details li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* ギャラリーセクション */
+        .gallery {
+            padding: 5rem 5%;
+            background: var(--bg-light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.5s ease;
+            height: 250px;
+            background: #f0f0f0;
+            border: 2px solid var(--light-green);
+        }
+
+        .gallery-item.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(27,58,27,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-caption {
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* 団体リンクセクション */
+        .organizations {
+            padding: 5rem 5%;
+            background: white;
+        }
+
+        .org-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .org-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            cursor: pointer;
+            border: 1px solid var(--light-green);
+        }
+
+        .org-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .org-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .org-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .org-name {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .org-role {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* フッター */
+        footer {
+            background: var(--dark-green);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .footer-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .footer-info div {
+            opacity: 0.9;
+        }
+
+        .footer-info h4 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .footer-info p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* フローティングボタン */
+        .floating-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+        }
+
+        .float-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0);
+            animation: floatBtnAppear 0.5s ease forwards;
+        }
+
+        .float-btn:nth-child(1) { animation-delay: 0.1s; }
+        .float-btn:nth-child(2) { animation-delay: 0.2s; }
+
+        @keyframes floatBtnAppear {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .float-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .timeline-line {
+                left: 20px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                flex-direction: column;
+                transform: none;
+                padding-left: 50px;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .footer-info {
+                text-align: center;
+            }
+
+            .senin-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .senin-portrait {
+                margin: 0 auto;
+            }
+
+            .senin-features {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* パーティクルアニメーション */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ローディング画面 -->
+    <div id="loader">
+        <div class="loader-content">
+            <h1 class="loader-text">伏見不二雄</h1>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- パーティクル背景 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- ヘッダー -->
+    <header id="header">
+        <nav>
+            <a href="#home" class="logo">伏見不二雄</a>
+            <ul class="nav-menu">
+                <li><a href="#home">ホーム</a></li>
+                <li><a href="#business">事業紹介</a></li>
+                <li><a href="#senin">笑福仙人</a></li>
+                <li><a href="#achievements">実績</a></li>
+                <li><a href="#timeline">詳細年表</a></li>
+                <li><a href="#gallery">ギャラリー</a></li>
+                <li><a href="#organizations">所属団体</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="hero" id="home">
+        <div class="hero-bg-animation"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span style="--delay: 0s">伏</span>
+                <span style="--delay: 0.1s">見</span>
+                <span style="--delay: 0.2s">不</span>
+                <span style="--delay: 0.3s">二</span>
+                <span style="--delay: 0.4s">雄</span>
+            </h1>
+            <p class="hero-subtitle">冠婚葬祭から地域づくりまで、石巻を支える笑顔の経営者</p>
+            <div class="hero-roles">
+                <div class="role-badge" style="--badge-delay: 0s">飛翔閣・竹乃浦 代表</div>
+                <div class="role-badge" style="--badge-delay: 0.1s">やすらぎ葬儀社 共同代表</div>
+                <div class="role-badge" style="--badge-delay: 0.2s">石巻市町内会連合会 会長</div>
+                <div class="role-badge" style="--badge-delay: 0.3s">石巻笑い学会 副支部長</div>
+                <div class="role-badge" style="--badge-delay: 0.4s">石巻将棋連盟 事務局長</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 事業紹介セクション -->
+    <section class="business-section" id="business">
+        <h2 class="section-title">事業紹介</h2>
+        <div class="business-cards">
+            <div class="business-card">
+                <div class="business-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%23F1F8E9" width="400" height="250"/><text x="200" y="125" font-family="serif" font-size="24" fill="%232C5F2D" text-anchor="middle">飛翔閣</text></svg>');"></div>
+                <div class="business-card-content">
+                    <h3>飛翔閣</h3>
+                    <p>石巻の誇るブライダルホール。人生の大切な節目を、最高の笑顔と共に。</p>
+                    <ul class="business-detail-list">
+                        <li>創業：1988年</li>
+                        <li>収容人数：最大700名</li>
+                        <li>宴会場・神殿・写真室完備</li>
+                        <li>オリジナル婚礼料理が自慢</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="business-card">
+                <div class="business-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%23DCEDC8" width="400" height="250"/><text x="200" y="125" font-family="serif" font-size="24" fill="%232C5F2D" text-anchor="middle">竹乃浦</text></svg>');"></div>
+                <div class="business-card-content">
+                    <h3>竹乃浦</h3>
+                    <p>伝統の味を守り続ける寿司・割烹。四季折々の地元食材を活かした日本料理。</p>
+                    <ul class="business-detail-list">
+                        <li>寿司職人歴50年以上</li>
+                        <li>法事・慶事の仕出し対応</li>
+                        <li>精進落とし膳：30,000円～</li>
+                        <li>折詰：9,000円～</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="business-card">
+                <div class="business-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%23C8E6C9" width="400" height="250"/><text x="200" y="125" font-family="serif" font-size="24" fill="%232C5F2D" text-anchor="middle">やすらぎ葬儀社</text></svg>');"></div>
+                <div class="business-card-content">
+                    <h3>株式会社やすらぎ葬儀社</h3>
+                    <p>「笑顔で見送る」葬儀を提案。家族葬から社葬まで心を込めてお手伝い。</p>
+                    <ul class="business-detail-list">
+                        <li>創業：2004年（共同代表）</li>
+                        <li>斎場：しみんのホール石巻あゆみ野</li>
+                        <li>最大収容：300席（縁ホール）</li>
+                        <li>終活セミナー・笑い講座開催</li>
+                        <li>24時間365日対応</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 笑福仙人セクション -->
+    <section class="senin-section" id="senin">
+        <h2 class="section-title">笑福仙人の世界</h2>
+        <div class="senin-container">
+            <div class="senin-image">
+                <div class="senin-portrait"></div>
+            </div>
+            <div class="senin-content">
+                <h3 class="senin-title">
+                    <span>😊</span>笑福仙人（しょうふくせんにん）
+                </h3>
+                <p class="senin-tagline">"笑いこそ最良の薬" - 食と笑いで健康長寿を</p>
+                <p class="senin-description">
+                    60代半ばで始めた"もう一つの顔"。白く長いあごひげ・打ち掛け姿で七福神さながらの出で立ちとなり、
+                    漫談や健康講座を通じて「笑って長生きPPK（ピンピンコロリ）」を広める、石巻が誇るローカルタレント。
+                </p>
+                <div class="senin-features">
+                    <div class="senin-feature">
+                        <h4>🎭 漫才師として</h4>
+                        <p>「金華山 山ちゃん・竹ちゃん」として年の差35歳コンビを結成。年間30以上のステージで活躍</p>
+                    </div>
+                    <div class="senin-feature">
+                        <h4>🎤 歌手として</h4>
+                        <p>2010年CD『人生笑い節』でデビュー。三味線入り演歌で笑い声が間奏に入る独特な作品</p>
+                    </div>
+                    <div class="senin-feature">
+                        <h4>📚 講師として</h4>
+                        <p>「お笑いと食と健康」講演で高齢者施設や自治体で大人気。笑いヨガ体験も実施</p>
+                    </div>
+                    <div class="senin-feature">
+                        <h4>🏥 健康伝道師として</h4>
+                        <p>震災後の慰問活動で延べ5万人を動員。「笑って涙を乾かそう」が被災地の合言葉に</p>
+                    </div>
+                </div>
+                <div class="senin-activities">
+                    <h3>主な活動実績</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">🎪</div>
+                            <div class="activity-text">
+                                <h5>日本笑い学会石巻支部</h5>
+                                <p>2006年創設・副支部長として年3-4回の例会開催。会員60名を率いる</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">🎯</div>
+                            <div class="activity-text">
+                                <h5>終活セミナー「笑いでPPKの人生を」</h5>
+                                <p>やすらぎ葬儀社で定期開催。笑いと口腔ケア、姿勢体操を実演指導</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">🏆</div>
+                            <div class="activity-text">
+                                <h5>石巻市「お笑いマスター決定戦」</h5>
+                                <p>後進育成として企画提案。観光PRと笑いを融合した新名物イベントに成長</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 実績カウンターセクション -->
+    <section class="achievements" id="achievements">
+        <h2 class="section-title">実績・数字で見る功績</h2>
+        <div class="counter-grid">
+            <div class="counter-item">
+                <span class="counter-number" data-target="50">0</span>
+                <span class="counter-label">年以上の経営実績</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" data-target="9">0</span>
+                <span class="counter-label">所属団体数</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" data-target="230">0</span>
+                <span class="counter-label">倫理法人会会員企業数</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" data-target="174">0</span>
+                <span class="counter-label">万円の義援金取りまとめ</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" data-target="3">0</span>
+                <span class="counter-label">経営事業数</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" data-target="700">0</span>
+                <span class="counter-label">名収容の最大宴会場</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 詳細な活動タイムライン -->
+    <section class="timeline" id="timeline">
+        <h2 class="section-title">詳細な活動年表</h2>
+        <div class="timeline-container">
+            <div class="timeline-line">
+                <div class="timeline-progress"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1946年11月</div>
+                    <h3 class="timeline-title">石巻法人会設立に関与</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>全国で最初の法人会として石巻法人会が設立</li>
+                            <li>後年、理事・顧問として税務教育、異業種交流に尽力</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1975年</div>
+                    <h3 class="timeline-title">石巻市水道協同組合との関わり開始</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>石巻市水道協同組合設立</li>
+                            <li>後に参与・顧問として地域インフラ維持に協力</li>
+                            <li>石巻広域水道企業団経営審議会委員</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1988年</div>
+                    <h3 class="timeline-title">飛翔閣創業</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>寿司職人から実業家へ転身</li>
+                            <li>「おいしい料理が主役の結婚式」をコンセプトに</li>
+                            <li>ブライダルホール・割烹として石巻の定番式場に成長</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2000年代初頭</div>
+                    <h3 class="timeline-title">倫理法人会創設メンバー</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>石巻市倫理法人会創設当初からのメンバー</li>
+                            <li>毎週水曜早朝のモーニングセミナー開催</li>
+                            <li>「企業トップはいつも笑顔で」の理念を実践</li>
+                            <li>副会長・幹事などを歴任</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2004年</div>
+                    <h3 class="timeline-title">株式会社やすらぎ葬儀社創業</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>稲葉隆氏と共同代表として葬祭業に参入</li>
+                            <li>「葬儀も温かい食事と家族目線で」をコンセプト</li>
+                            <li>冠婚葬祭の総合サービス企業へ</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2006年</div>
+                    <h3 class="timeline-title">石巻笑い学会設立</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>日本笑い学会石巻支部を仲間9人と創設</li>
+                            <li>副支部長（福支部長）に就任</li>
+                            <li>「笑いの力で地元を元気に」を理念に</li>
+                            <li>「金華山・山内組」として漫才活動も</li>
+                            <li>「笑福仙人」の芸名で腹話術・歌唱披露</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2009年</div>
+                    <h3 class="timeline-title">やすらぎ葬儀社5周年</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>開業5周年記念イベント開催</li>
+                            <li>「笑いで見送る」終活講座を開始</li>
+                            <li>LED常花・オリジナル焼銭袋など独自商品開発</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2011年3月</div>
+                    <h3 class="timeline-title">東日本大震災での支援活動</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>避難所への炊き出し支援（竹乃浦の食材提供）</li>
+                            <li>霊柩車・給水車を無償提供</li>
+                            <li>遺体搬送・安置所運営に協力</li>
+                            <li>笑い学会として仮設住宅慰問公演実施</li>
+                            <li>町内会ネットワークで支援物資配布</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2014年</div>
+                    <h3 class="timeline-title">PTA連合会長として活動</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>石巻地区PTA連合会会長を歴任</li>
+                            <li>市内各学校PTA間の調整役</li>
+                            <li>家庭教育学級の開催推進</li>
+                            <li>震災後の学校施設復旧支援</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2017年</div>
+                    <h3 class="timeline-title">石巻あゆみ野斎場開設</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>「しみんのホール やすらぎ 石巻あゆみ野斎場」オープン</li>
+                            <li>最大300席（縁ホール）・100席（絆ホール）</li>
+                            <li>家族葬から社葬まで対応可能に</li>
+                            <li>全葬連ガイドライン準拠店として運営</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2019年</div>
+                    <h3 class="timeline-title">将棋連盟活動強化</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>石巻将棋連盟事務局長として活動</li>
+                            <li>連絡事務所を飛翔閣内に設置</li>
+                            <li>児童向け将棋イベントのスポンサー探し</li>
+                            <li>新春将棋大会の運営統括</li>
+                            <li>藤井聡太ブームで参加者増加</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2021年</div>
+                    <h3 class="timeline-title">マルホンまきあーとテラスへピアノ寄贈</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>新文化施設にクリスタル製グランドピアノを私費で寄贈</li>
+                            <li>河合楽器製の特注品</li>
+                            <li>「地域への恩返し」として実施</li>
+                            <li>商工会議所議員として地域文化振興に貢献</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2022年</div>
+                    <h3 class="timeline-title">石巻市町内会連合会会長就任</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>6地区81町内会を束ねる会長に</li>
+                            <li>「より良い地域づくりには町内会同士の結びつきが重要」</li>
+                            <li>防犯パトロール・子ども見守り活動推進</li>
+                            <li>姉妹都市静岡県焼津市との交流促進</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2023年</div>
+                    <h3 class="timeline-title">商工会議所特別顧問的立場</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>石巻商工会議所で若手後継者育成</li>
+                            <li>地域振興策の助言・提言</li>
+                            <li>石巻川開き祭りなどイベント支援</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2024年1月</div>
+                    <h3 class="timeline-title">能登半島地震被災地支援</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>町内会連合会として174万円の義援金取りまとめ</li>
+                            <li>「13年前の恩返し」として実施（81歳）</li>
+                            <li>やすらぎ葬儀社からも車両・資材提供</li>
+                            <li>防犯・防災功労者表彰受賞</li>
+                            <li>日本赤十字社金色有功章受章</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2024年</div>
+                    <h3 class="timeline-title">現在の活動</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>飛翔閣・竹乃浦・やすらぎ葬儀社の代表として現役経営</li>
+                            <li>石巻市町内会連合会会長として地域活性化</li>
+                            <li>笑い学会副支部長として年3-4回の例会開催</li>
+                            <li>将棋連盟事務局長として第139回大会開催</li>
+                            <li>「アイデアが必要な時代」をモットーに活動</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ギャラリーセクション -->
+    <section class="gallery" id="gallery">
+        <h2 class="section-title">フォトギャラリー</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>飛翔閣 外観</text></svg>" alt="飛翔閣">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">飛翔閣 外観</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>竹乃浦 料理</text></svg>" alt="竹乃浦">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">竹乃浦の極上料理</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>やすらぎ葬儀社</text></svg>" alt="やすらぎ葬儀社">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">しみんのホール やすらぎ</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>笑い学会活動</text></svg>" alt="笑い学会">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">笑い学会での公演</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>震災支援活動</text></svg>" alt="震災支援">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">震災支援活動の様子</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>ピアノ寄贈式</text></svg>" alt="ピアノ寄贈">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">ピアノ寄贈式典</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>将棋大会</text></svg>" alt="将棋大会">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">新春将棋大会</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>終活セミナー</text></svg>" alt="終活セミナー">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">笑いで見送る終活講座</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 250'><rect fill='%23f0f0f0' width='300' height='250'/><text x='150' y='125' font-family='sans-serif' font-size='16' fill='%23999' text-anchor='middle'>町内会活動</text></svg>" alt="町内会">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">町内会連合会活動</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 所属団体セクション -->
+    <section class="organizations" id="organizations">
+        <h2 class="section-title">所属団体・役職</h2>
+        <div class="org-grid">
+            <div class="org-card">
+                <div class="org-icon">🏛️</div>
+                <div class="org-name">石巻法人会</div>
+                <div class="org-role">理事・顧問</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">🤝</div>
+                <div class="org-name">石巻市倫理法人会</div>
+                <div class="org-role">創設メンバー</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">💧</div>
+                <div class="org-name">石巻市水道協同組合</div>
+                <div class="org-role">参与・顧問</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">📚</div>
+                <div class="org-name">石巻地区PTA連合会</div>
+                <div class="org-role">元会長・顧問</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">♟️</div>
+                <div class="org-name">石巻将棋連盟</div>
+                <div class="org-role">事務局長</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">😊</div>
+                <div class="org-name">石巻笑い学会</div>
+                <div class="org-role">副支部長（福支部長）</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">🏢</div>
+                <div class="org-name">石巻商工会議所</div>
+                <div class="org-role">議員・特別顧問</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">🏘️</div>
+                <div class="org-name">石巻市町内会連合会</div>
+                <div class="org-role">会長（現職）</div>
+            </div>
+            <div class="org-card">
+                <div class="org-icon">🕊️</div>
+                <div class="org-name">宮城県葬祭業協同組合</div>
+                <div class="org-role">石巻ブロック世話人</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-quote">"企業トップはいつも笑顔で" "笑いで見送る"</p>
+            <div class="footer-info">
+                <div>
+                    <h4>飛翔閣・竹乃浦</h4>
+                    <p>〒986-0832<br>宮城県石巻市泉町<br>TEL: 0225-XX-XXXX<br>FAX: 0225-XX-XXXX</p>
+                </div>
+                <div>
+                    <h4>株式会社やすらぎ葬儀社</h4>
+                    <p>〒986-0861<br>宮城県石巻市蛇田字上前沼3-8<br>TEL: 0225-XX-XXXX<br>24時間365日対応</p>
+                </div>
+                <div>
+                    <h4>石巻笑い学会</h4>
+                    <p>事務局：飛翔閣内<br>例会：年3-4回開催<br>会員数：約60名<br>笑いの出前講座受付中</p>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.7;">&copy; 2024 伏見不二雄. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- フローティングボタン -->
+    <div class="floating-buttons">
+        <div class="float-btn" onclick="scrollToTop()">↑</div>
+        <div class="float-btn" onclick="toggleNews()">📰</div>
+    </div>
+
+    <script>
+        // ローディング画面の制御
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 1000);
+            }, 3000);
+        });
+
+        // パーティクル生成
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // スクロールアニメーション
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // カウンターアニメーション
+                    if (entry.target.classList.contains('counter-item')) {
+                        const counter = entry.target.querySelector('.counter-number');
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        const duration = 2000;
+                        const start = Date.now();
+                        
+                        const updateCounter = () => {
+                            const now = Date.now();
+                            const progress = Math.min((now - start) / duration, 1);
+                            const currentValue = Math.floor(progress * target);
+                            counter.textContent = currentValue;
+                            
+                            if (progress < 1) {
+                                requestAnimationFrame(updateCounter);
+                            }
+                        };
+                        
+                        updateCounter();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // 監視対象要素の登録
+        document.querySelectorAll('.section-title, .business-card, .counter-item, .timeline-item, .gallery-item, .org-card, .senin-image, .senin-content, .senin-feature').forEach(el => {
+            observer.observe(el);
+        });
+
+        // タイムラインプログレスバー
+        window.addEventListener('scroll', () => {
+            const timeline = document.querySelector('.timeline');
+            const timelineProgress = document.querySelector('.timeline-progress');
+            
+            if (timeline && timelineProgress) {
+                const timelineRect = timeline.getBoundingClientRect();
+                const timelineHeight = timeline.offsetHeight;
+                const windowHeight = window.innerHeight;
+                
+                if (timelineRect.top < windowHeight && timelineRect.bottom > 0) {
+                    const scrolled = windowHeight - timelineRect.top;
+                    const progress = Math.min(scrolled / timelineHeight, 1);
+                    timelineProgress.style.height = (progress * 100) + '%';
+                }
+            }
+        });
+
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // トップへ戻る
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // ニューストグル（仮）
+        function toggleNews() {
+            alert('ニュース・活動報告機能は現在準備中です。');
+        }
+
+        // ヘッダーのスクロール制御
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const header = document.getElementById('header');
+            
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // ギャラリーアイテムクリック
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // ここに画像拡大表示機能を実装可能
+                console.log('Gallery item clicked');
+            });
+        });
+
+        // 団体カードクリック
+        document.querySelectorAll('.org-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // ここに各団体の詳細情報表示機能を実装可能
+                console.log('Organization card clicked');
+            });
+        });
+    </script>
+</body>
+</html>
