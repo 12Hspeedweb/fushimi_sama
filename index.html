@@ -1,4 +1,14 @@
-.timeline-featured-image::before {
+// 年表画像セクションの表示チェック
+            const timelineImageBreaks = document.querySelectorAll('.timeline-image-break');
+            if (timelineImageBreaks.length > 0) {
+                console.log(`\n===== 年表画像セクション =====`);
+                console.log(`年表画像セクション数: ${timelineImageBreaks.length}`);
+                timelineImageBreaks.forEach((section, index) => {
+                    const isVisible = section.classList.contains('visible');
+                    const opacity = window.getComputedStyle(section).opacity;
+                    console.log(`セクション${index + 1}: ${isVisible ? '表示' : '非表示'} (opacity: ${opacity})`);
+                });
+            }        .timeline-featured-image::before {
             content: attr(data-placeholder);
             position: absolute;
             top: 50%;
@@ -671,6 +681,7 @@
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
+            overflow: visible;
         }
 
         .timeline-line {
@@ -1794,20 +1805,6 @@
     <footer>
         <div class="footer-content">
             <p class="footer-quote">"企業トップはいつも笑顔で" "笑いで見送る"</p>
-            <div class="footer-info">
-                <div>
-                    <h4>飛翔閣・竹乃浦</h4>
-                    <p>〒986-0832<br>宮城県石巻市泉町<br>TEL: 0225-XX-XXXX<br>FAX: 0225-XX-XXXX</p>
-                </div>
-                <div>
-                    <h4>株式会社やすらぎ葬儀社</h4>
-                    <p>〒986-0861<br>宮城県石巻市蛇田字上前沼3-8<br>TEL: 0225-XX-XXXX<br>24時間365日対応</p>
-                </div>
-                <div>
-                    <h4>石巻笑い学会</h4>
-                    <p>事務局：飛翔閣内<br>例会：年3-4回開催<br>会員数：約60名<br>笑いの出前講座受付中</p>
-                </div>
-            </div>
             <p style="margin-top: 2rem; opacity: 0.7;">&copy; 2024 伏見不二雄. All rights reserved.</p>
         </div>
     </footer>
