@@ -187,7 +187,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(241, 248, 233, 0.3), rgba(220, 237, 200, 0.3)), url('./images/hero/hero-bg.jpg');
+            background-image: linear-gradient(rgba(241, 248, 233, 0.2), rgba(220, 237, 200, 0.2)), url('./images/hero/hero-bg.jpg');
             background-size: cover;
             background-position: center;
             z-index: 0;
@@ -256,8 +256,9 @@
 
         .hero-subtitle {
             font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1.5);
+            color: var(--primary-color);  /* 濃い緑色に変更 */
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);  /* 白い影で読みやすく */
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeInUp 1s ease forwards;
@@ -1042,6 +1043,14 @@
                 flex-direction: column;
                 text-align: center;
             }
+
+            .timeline-image-break {
+                padding: 2rem 5%;
+            }
+
+            .timeline-featured-image {
+                max-width: 100%;
+            }
         }
 
         /* パーティクルアニメーション */
@@ -1080,6 +1089,97 @@
                 transform: translateY(-100vh) rotate(360deg);
                 opacity: 0;
             }
+        }
+
+        /* 年表途中の画像セクション */
+        .timeline-image-break {
+            position: relative;
+            margin: 4rem 0;
+            padding: 3rem 0;
+            text-align: center;
+            background: var(--bg-light);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-image-break.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-featured-image {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            background-color: var(--light-green);
+        }
+
+        .timeline-featured-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            animation: stepRotate 8s infinite;
+        }
+
+        /* カクカク回転アニメーション */
+        @keyframes stepRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            10% { transform: rotate(0deg) scale(1); }
+            15% { transform: rotate(3deg) scale(1.02); }
+            25% { transform: rotate(3deg) scale(1.02); }
+            30% { transform: rotate(-2deg) scale(1); }
+            40% { transform: rotate(-2deg) scale(1); }
+            45% { transform: rotate(1deg) scale(1.01); }
+            55% { transform: rotate(1deg) scale(1.01); }
+            60% { transform: rotate(-3deg) scale(0.98); }
+            70% { transform: rotate(-3deg) scale(0.98); }
+            75% { transform: rotate(2deg) scale(1); }
+            85% { transform: rotate(2deg) scale(1); }
+            90% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+
+        .timeline-image-caption {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* ホバー時は動きを止める */
+        .timeline-featured-image:hover img {
+            animation-play-state: paused;
+            transform: rotate(0deg) scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        /* 2枚目の画像は逆回転 */
+        .timeline-featured-image.reverse img {
+            animation: stepRotateReverse 8s infinite;
+        }
+
+        @keyframes stepRotateReverse {
+            0% { transform: rotate(0deg) scale(1); }
+            10% { transform: rotate(0deg) scale(1); }
+            15% { transform: rotate(-3deg) scale(1.02); }
+            25% { transform: rotate(-3deg) scale(1.02); }
+            30% { transform: rotate(2deg) scale(1); }
+            40% { transform: rotate(2deg) scale(1); }
+            45% { transform: rotate(-1deg) scale(1.01); }
+            55% { transform: rotate(-1deg) scale(1.01); }
+            60% { transform: rotate(3deg) scale(0.98); }
+            70% { transform: rotate(3deg) scale(0.98); }
+            75% { transform: rotate(-2deg) scale(1); }
+            85% { transform: rotate(-2deg) scale(1); }
+            90% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(0deg) scale(1); }
         }
     </style>
 </head>
@@ -1313,6 +1413,15 @@
                 </div>
                 <div class="timeline-dot"></div>
             </div>
+
+            <!-- ピアノ寄贈記念画像 -->
+            <div class="timeline-image-break">
+                <div class="timeline-featured-image reverse">
+                    <img src="./images/timeline/memorial-photo-02.jpg" alt="マルホンまきあーとテラス ピアノ寄贈" onerror="this.style.backgroundColor='#C8E6C9'; this.style.height='400px';">
+                </div>
+                <p class="timeline-image-caption">クリスタルピアノ寄贈 - 地域文化振興への思いを形に</p>
+            </div>
+
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="timeline-date">1988年</div>
@@ -1327,6 +1436,39 @@
                 </div>
                 <div class="timeline-dot"></div>
             </div>
+
+            <!-- 金華山コンビ活動の記念画像 -->
+            <div class="timeline-image-break">
+                <div class="timeline-featured-image">
+                    <img src="./images/timeline/kinkazan-manzai.jpg" alt="金華山 山ちゃん・竹ちゃん" onerror="this.style.backgroundColor='#C8E6C9'; this.style.height='400px';">
+                </div>
+                <p class="timeline-image-caption">金華山 山ちゃん・竹ちゃん - 年の差35歳の笑いコンビ</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2020年～2021年</div>
+                    <h3 class="timeline-title">コロナ禍での活動</h3>
+                    <div class="timeline-details">
+                        <ul>
+                            <li>感染対策を徹底した葬儀・法事の実施</li>
+                            <li>オンライン笑い学会の試験導入</li>
+                            <li>飲食事業での持ち帰り・配達サービス強化</li>
+                            <li>地域高齢者への見守り活動継続</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <!-- コロナ禍での活動記念画像 -->
+            <div class="timeline-image-break">
+                <div class="timeline-featured-image reverse">
+                    <img src="./images/timeline/corona-activities.jpg" alt="コロナ禍でも笑顔を絶やさず" onerror="this.style.backgroundColor='#C8E6C9'; this.style.height='400px';">
+                </div>
+                <p class="timeline-image-caption">コロナ禍でも笑顔を絶やさず - 地域と共に困難を乗り越えて</p>
+            </div>
+
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="timeline-date">2000年代初頭</div>
@@ -1731,7 +1873,7 @@
         }, observerOptions);
 
         // 監視対象要素の登録
-        document.querySelectorAll('.section-title, .business-card, .counter-item, .timeline-item, .gallery-item, .org-card, .senin-image, .senin-content, .senin-feature').forEach(el => {
+        document.querySelectorAll('.section-title, .business-card, .counter-item, .timeline-item, .gallery-item, .org-card, .senin-image, .senin-content, .senin-feature, .timeline-image-break').forEach(el => {
             observer.observe(el);
         });
 
