@@ -1,24 +1,4 @@
-// 年表画像セクションの表示チェック
-            const timelineImageBreaks = document.querySelectorAll('.timeline-image-break');
-            if (timelineImageBreaks.length > 0) {
-                console.log(`\n===== 年表画像セクション =====`);
-                console.log(`年表画像セクション数: ${timelineImageBreaks.length}`);
-                timelineImageBreaks.forEach((section, index) => {
-                    const isVisible = section.classList.contains('visible');
-                    const opacity = window.getComputedStyle(section).opacity;
-                    console.log(`セクション${index + 1}: ${isVisible ? '表示' : '非表示'} (opacity: ${opacity})`);
-                });
-            }        .timeline-featured-image::before {
-            content: attr(data-placeholder);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            opacity: 0.5;
-            z-index: 1;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
