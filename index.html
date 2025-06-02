@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+.timeline-featured-image::before {
+            content: attr(data-placeholder);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            opacity: 0.5;
+            z-index: 1;
+        }<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -1094,13 +1104,17 @@
         /* 年表途中の画像セクション */
         .timeline-image-break {
             position: relative;
-            margin: 4rem 0;
-            padding: 3rem 0;
+            margin: 4rem auto;
+            padding: 3rem 5%;
             text-align: center;
             background: var(--bg-light);
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s ease;
+            z-index: 10;
+            width: 100%;
+            max-width: 100%;
+            display: block;
         }
 
         .timeline-image-break.visible {
@@ -1116,6 +1130,10 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             background-color: var(--light-green);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .timeline-featured-image img {
@@ -1148,9 +1166,8 @@
             font-size: 1.2rem;
             color: var(--primary-color);
             font-style: italic;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.5s;
+            position: relative;
+            z-index: 10;
         }
 
         /* ホバー時は動きを止める */
@@ -1413,15 +1430,6 @@
                 </div>
                 <div class="timeline-dot"></div>
             </div>
-
-            <!-- ピアノ寄贈記念画像 -->
-            <div class="timeline-image-break">
-                <div class="timeline-featured-image reverse">
-                    <img src="./images/timeline/memorial-photo-02.jpg" alt="マルホンまきあーとテラス ピアノ寄贈" onerror="this.style.backgroundColor='#C8E6C9'; this.style.height='400px';">
-                </div>
-                <p class="timeline-image-caption">クリスタルピアノ寄贈 - 地域文化振興への思いを形に</p>
-            </div>
-
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="timeline-date">1988年</div>
@@ -2007,6 +2015,17 @@
                     console.log(`背景画像${index + 1}:`, urlMatch[1]);
                 }
             });
+            
+            // 年表画像の特別チェック
+            const timelineImages = document.querySelectorAll('.timeline-featured-image img');
+            if (timelineImages.length > 0) {
+                console.log(`\n===== 年表画像チェック =====`);
+                timelineImages.forEach((img, index) => {
+                    console.log(`年表画像${index + 1}: ${img.src}`);
+                    console.log(`  - alt: ${img.alt}`);
+                    console.log(`  - 読み込み状態: ${img.complete ? (img.naturalHeight === 0 ? '失敗' : '成功') : '読み込み中'}`);
+                });
+            }
             
             // 総括を2秒後に表示
             setTimeout(() => {
